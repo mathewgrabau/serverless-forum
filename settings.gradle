@@ -1,0 +1,2 @@
+rootProject.name = 'forum'
+include 'lambda'

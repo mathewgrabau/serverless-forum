@@ -1,3 +1,43 @@
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.14'
 }
+
+// allprojects means this configuration
+// will be inherited by the root project and all subprojects
+allprojects {
+	// Artifact ID of the project
+	group 'com.serverlessarchitecture'
+	// Project version
+	version '1.0'
+	// Gradle Java plugin needed for Java support
+	apply plugin: 'java'
+	// Specify the version of java
+	sourceCompatibility = 1.8
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+		jcenter()
+		maven {
+			url "https://jitpack.io"
+		}
+	}
+}
+
+// Need dependencies for the build script
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		maven {
+			url "https://jitpack.io"
+		}
+	}
+}
+
+allprojects {
+	dependencies {
+		testCompile group: 'junit', name: 'junit', version: '4.11'
+	}
+}
