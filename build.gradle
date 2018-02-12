@@ -37,12 +37,31 @@ buildscript {
 
 	dependencies {
 		classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
+		classpath "jp.classmethod.aws:gradle-aws-plugin:0.+"
+	}
+}
+
+allprojects {
+	apply plugin: "jp.classmethod.aws"
+	aws {
+		region = "us-east-1"
 	}
 }
 
 allprojects {
 	dependencies {
 		testCompile group: 'junit', name: 'junit', version: '4.11'
+	}
+}
+
+def deploymentBucketName = "serverless-book-mgrabau-${aws.region}"
+def deploymentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+allprojects {
+	apply plugin: "jp.classmethod.aws.s3"
+	task createDeploymentBucket(type: jp.classmethod.aws.gradle.s3.CreateBucketTask) {
+		bucketName deploymentBucketName
+		ifNotExists true
 	}
 }
 
